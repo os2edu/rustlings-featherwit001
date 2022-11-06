@@ -35,12 +35,58 @@ impl Default for Person {
 // If while parsing the age, something goes wrong, then return the default of Person
 // Otherwise, then return an instantiated Person object with the results
 
-// I AM NOT DONE
-
+// I AM  DONE
+// 依旧需要重构
 impl From<&str> for Person {
     fn from(s: &str) -> Person {
+        match s.split_once(',') {
+            Some((first , second ))  
+                if!first.is_empty() && second.parse::<usize>().is_ok() => {
+                    Person {
+                        name: first.to_string(),
+                        age: second.parse::<usize>().unwrap(),
+                    }
+            },
+            _ => Person::default()
+        }
     }
 }
+
+
+// 实现太过凌乱，决定重构，提高可读性
+// impl From<&str> for Person {
+//     fn from(s: &str) -> Person {
+//         if s.len() == 0 {
+//             return Person::default();
+//         }
+
+//         let v: Vec<&str>= s.split(",").collect();
+
+//         if v.len() != 2 {
+//             return Person::default();
+//         }
+
+//         let name = match v[0] {
+//             "" => return Person::default(),
+//             _ => v[0].to_string(),
+//         };
+
+//         let age = match  v[1].parse::<usize>() {
+//             Ok(age) => age,
+//             Err(_) => return Person::default(),
+//         };
+
+//         Person {
+//             name,
+//             age,
+//         }
+
+
+//     }
+// }
+
+
+
 
 fn main() {
     // Use the `from` function
